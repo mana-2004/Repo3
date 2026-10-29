@@ -8,7 +8,7 @@
     <!-- الخطوط العربية -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     <!-- Chart.js للإحصائيات الشهرية -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
@@ -26,23 +26,49 @@
             --muted: #647778;
             --border: #cbd8d7;
             --paper: #ffffff;
+            --card-alt: #f5faf9;
             --background: #eef3f2;
+            --nav-bg: #e3eeec;
             --danger: #d93838;
             --danger-light: #fce8e8;
             --danger-border: #fca5a5;
             --amber: #d97706;
             --amber-light: #fffbeb;
+            --amber-border: #f5d08a;
+            --table-header: #e2f0ed;
+            --score-header: #d5e9e5;
+            --shadow-color: rgba(22, 58, 54, 0.08);
+        }
+
+        body.dark-theme {
+            --primary: #00e6a8;
+            --primary-dark: #38f9d7;
+            --primary-deeper: #081a17;
+            --primary-light: #163832;
+            --primary-border: #1f4a43;
+            --neon-mint: #00e6a8;
+            --neon-mint-glow: #38f9d7;
+            --text: #e6f4f1;
+            --muted: #8ab2ac;
+            --border: #234741;
+            --paper: #122623;
+            --card-alt: #17312d;
+            --background: #0b1917;
+            --nav-bg: #0e201d;
+            --danger: #ef4444;
+            --danger-light: #331515;
+            --danger-border: #662222;
+            --amber: #f59e0b;
+            --amber-light: #2b2212;
+            --amber-border: #5a4318;
+            --table-header: #1a3a35;
+            --score-header: #15302c;
+            --shadow-color: rgba(0, 0, 0, 0.35);
         }
 
         * {
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
-        }
-
-        html {
-            direction: rtl;
-            -webkit-print-color-adjust: exact;
-            print-color-adjust: exact;
         }
 
         body {
@@ -54,48 +80,52 @@
             direction: rtl;
             font-size: 14px;
             min-height: 100vh;
-            padding-bottom: 32px;
+            padding-bottom: 40px;
+            transition: background-color 0.25s ease, color 0.25s ease;
         }
 
         .app-shell {
             width: 100%;
-            max-width: 540px;
+            max-width: 580px;
             margin: 0 auto;
             background: var(--paper);
-            border: 1px solid #dce6e4;
-            border-radius: 18px;
+            border: 1px solid var(--border);
+            border-radius: 20px;
             padding: 16px;
-            box-shadow: 0 10px 30px rgba(22, 58, 54, 0.08);
+            box-shadow: 0 10px 30px var(--shadow-color);
+            transition: background-color 0.25s ease, border-color 0.25s ease;
         }
 
         @media screen and (min-width: 768px) {
-            body {
-                padding: 24px;
-            }
-            .app-shell {
-                max-width: 680px;
-                padding: 24px;
-            }
+            body { padding: 24px; }
+            .app-shell { max-width: 680px; padding: 24px; }
         }
 
-        /* شريط التبديل العلوي بين جدول اليوم والداشبورد */
+        /* شريط التبديل العلوي وزر الوضع الليلي */
+        .top-bar-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
         .top-nav {
+            flex: 1;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            background: #e3eeec;
+            gap: 6px;
+            background: var(--nav-bg);
             padding: 5px;
-            border-radius: 12px;
-            margin-bottom: 14px;
+            border-radius: 13px;
         }
 
         .tab-btn {
             border: none;
             background: transparent;
-            color: var(--primary-dark);
+            color: var(--muted);
             font-family: 'Tajawal', sans-serif;
-            font-size: 14px;
-            font-weight: 700;
+            font-size: 13.5px;
+            font-weight: 800;
             padding: 10px 12px;
             border-radius: 9px;
             cursor: pointer;
@@ -108,29 +138,52 @@
 
         .tab-btn.active {
             background: var(--paper);
-            color: var(--primary);
-            box-shadow: 0 2px 8px rgba(19, 57, 53, 0.1);
+            color: var(--text);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        body.dark-theme .tab-btn.active {
+            background: #1d3e38;
+            color: var(--neon-mint);
+        }
+
+        .theme-toggle-btn {
+            width: 44px;
+            height: 44px;
+            background: var(--nav-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text);
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .theme-toggle-btn:hover {
+            transform: scale(1.05);
         }
 
         /* صندوق الآية القرآنية */
         .verse-card {
-            position: relative;
             margin: 0 0 14px;
-            padding: 14px 14px 12px;
+            padding: 14px;
             text-align: center;
-            background: #f5faf9;
+            background: var(--card-alt);
             border: 1px solid var(--primary-border);
-            border-top: 4px solid var(--primary);
-            border-radius: 12px;
+            border-top: 4px solid #26756f;
+            border-radius: 14px;
         }
 
         .verse {
             margin: 0;
-            color: var(--primary-dark);
+            color: var(--text);
             font-family: 'Amiri', serif;
-            font-size: 19px;
+            font-size: 18px;
             font-weight: 700;
-            line-height: 1.75;
+            line-height: 1.7;
         }
 
         .header-badges {
@@ -142,60 +195,45 @@
             margin-top: 8px;
         }
 
-        .level {
+        .badge-pill {
             display: inline-block;
-            padding: 3px 14px;
-            color: var(--primary-dark);
-            background: #e6f3f0;
+            padding: 3px 12px;
+            color: var(--text);
+            background: var(--primary-light);
             border: 1px solid var(--primary-border);
             border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
+            font-size: 11.5px;
+            font-weight: 800;
         }
 
-        /* شريط التقدم اليومي المتقدم (مطابق للصورة المرفقة) */
+        /* شريط التقدم اليومي المتقدم بالدرجات */
         .daily-progress-banner {
             position: relative;
             overflow: hidden;
             background: linear-gradient(90deg, #0d2824 0%, #153c37 55%, #0f2e2a 100%);
-            border-radius: 14px;
-            padding: 16px 16px 14px;
+            border-radius: 16px;
+            padding: 16px;
             margin-bottom: 14px;
             border: 1px solid #1f524b;
-            box-shadow: 0 6px 18px rgba(13, 40, 36, 0.18);
+            box-shadow: 0 6px 18px rgba(13, 40, 36, 0.24);
             color: #d1ede6;
         }
 
-        /* خلفية النجوم الهندسية الشفافة كما في الصورة */
-        .daily-progress-banner::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cpolygon points='32,6 39,22 57,24 43,36 47,54 32,44 17,54 21,36 7,24 25,22' fill='none' stroke='%23ffffff' stroke-width='1.1' stroke-opacity='0.06'/%3E%3C/svg%3E");
-            background-repeat: repeat;
-            background-size: 56px 56px;
-            pointer-events: none;
-        }
-
         .progress-top-meta {
-            position: relative;
-            z-index: 1;
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 10px;
             font-size: 12.5px;
             color: #9cd5c9;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .progress-bar-row {
-            position: relative;
-            z-index: 1;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 14px;
+            gap: 12px;
             direction: rtl;
         }
 
@@ -206,7 +244,6 @@
             border-radius: 999px;
             overflow: hidden;
             position: relative;
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.35);
         }
 
         .progress-fill {
@@ -223,42 +260,40 @@
 
         .progress-stats-text {
             font-family: 'Tajawal', sans-serif;
-            font-size: 14.5px;
+            font-size: 14px;
             font-weight: 800;
             color: #c9ece4;
             white-space: nowrap;
             direction: ltr;
-            letter-spacing: 0.3px;
         }
 
         .progress-sub-row {
-            position: relative;
-            z-index: 1;
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-top: 8px;
             font-size: 11.5px;
             color: #8abdb2;
+            font-weight: 600;
         }
 
-        /* شريط اختيار اليوم والتنقل بالتاريخ الفعلي (System Date) */
+        /* شريط اختيار اليوم */
         .date-navigator {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: #f4f9f8;
-            border: 1px solid var(--primary-border);
-            border-radius: 12px;
+            background: var(--card-alt);
+            border: 1px solid var(--border);
+            border-radius: 13px;
             padding: 8px 10px;
             margin-bottom: 12px;
             gap: 8px;
         }
 
         .nav-arrow-btn {
-            background: #ffffff;
+            background: var(--paper);
             border: 1px solid var(--border);
-            color: var(--primary-dark);
+            color: var(--text);
             width: 36px;
             height: 36px;
             border-radius: 9px;
@@ -271,20 +306,14 @@
             flex-shrink: 0;
         }
 
-        .nav-arrow-btn:active {
-            transform: scale(0.95);
-            background: var(--primary-light);
-        }
+        .nav-arrow-btn:active { transform: scale(0.95); }
 
-        .current-date-info {
-            text-align: center;
-            flex: 1;
-        }
+        .current-date-info { text-align: center; flex: 1; }
 
         .current-day-title {
             font-size: 16px;
             font-weight: 800;
-            color: var(--primary-dark);
+            color: var(--text);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -292,7 +321,7 @@
         }
 
         .today-pill {
-            background: var(--primary);
+            background: #26756f;
             color: #fff;
             font-size: 10.5px;
             padding: 2px 8px;
@@ -309,18 +338,18 @@
 
         .go-today-btn {
             background: var(--primary-light);
-            color: var(--primary-dark);
+            color: var(--text);
             border: 1px solid var(--primary-border);
             border-radius: 8px;
-            padding: 6px 10px;
+            padding: 5px 9px;
             font-family: 'Tajawal', sans-serif;
-            font-size: 12px;
-            font-weight: 700;
+            font-size: 11.5px;
+            font-weight: 800;
             cursor: pointer;
             white-space: nowrap;
         }
 
-        /* شريط أيام الأسبوع المصغر للتنقل السريع على الهاتف */
+        /* شريط أيام الأسبوع المصغر */
         .week-strip {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
@@ -330,18 +359,17 @@
 
         .week-day-chip {
             border: 1px solid var(--border);
-            background: #ffffff;
-            border-radius: 10px;
+            background: var(--paper);
+            border-radius: 11px;
             padding: 6px 2px;
             text-align: center;
             cursor: pointer;
             transition: all 0.15s ease;
-            position: relative;
         }
 
         .week-day-chip .chip-name {
             display: block;
-            font-size: 11px;
+            font-size: 10.5px;
             font-weight: 700;
             color: var(--muted);
         }
@@ -362,36 +390,65 @@
             background: transparent;
         }
 
-        .week-day-chip.has-data .chip-dot {
-            background: var(--primary);
-        }
+        .week-day-chip.has-data .chip-dot { background: #26756f; }
 
         .week-day-chip.active {
-            background: var(--primary);
-            border-color: var(--primary);
+            background: #26756f;
+            border-color: #26756f;
             box-shadow: 0 3px 10px rgba(38, 117, 111, 0.25);
         }
 
         .week-day-chip.active .chip-name,
-        .week-day-chip.active .chip-num {
-            color: #ffffff;
-        }
-
-        .week-day-chip.active .chip-dot {
-            background: var(--neon-mint);
-        }
+        .week-day-chip.active .chip-num { color: #ffffff; }
+        .week-day-chip.active .chip-dot { background: var(--neon-mint); }
 
         .week-day-chip.is-system-today:not(.active) {
-            border-color: var(--primary);
-            background: #f0f9f7;
+            border-color: #26756f;
+            background: var(--card-alt);
         }
 
-        /* جدول اليوم الواحد المخصص للموبايل */
+        /* شريط أدوات إدارة المهام */
+        .tasks-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 0 2px;
+        }
+
+        .tasks-toolbar-title {
+            font-size: 13.5px;
+            font-weight: 800;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-add-task {
+            background: #26756f;
+            color: #ffffff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-add-task:hover { transform: scale(1.02); }
+
+        /* جدول اليوم الواحد */
         .mobile-table-card {
             border: 1px solid var(--border);
-            border-radius: 12px;
+            border-radius: 14px;
             overflow: hidden;
-            background: #ffffff;
+            background: var(--paper);
         }
 
         table.daily-table {
@@ -401,78 +458,100 @@
             direction: rtl;
         }
 
-        table.daily-table col.col-work { width: 64%; }
-        table.daily-table col.col-dur { width: 16%; }
+        table.daily-table col.col-work { width: 62%; }
+        table.daily-table col.col-dur { width: 18%; }
         table.daily-table col.col-check { width: 20%; }
 
         table.daily-table thead th {
             height: 42px;
             padding: 8px 6px;
-            background: #e2f0ed;
-            color: var(--primary-dark);
-            border-bottom: 1px solid #a9cbc6;
-            font-size: 13.5px;
+            background: var(--table-header);
+            color: var(--text);
+            border-bottom: 1px solid var(--border);
+            font-size: 13px;
             font-weight: 800;
             text-align: center;
         }
 
         table.daily-table thead th:first-child {
-            background: var(--primary);
+            background: #26756f;
             color: #ffffff;
             text-align: right;
             padding-right: 12px;
         }
 
         table.daily-table thead th:nth-child(2) {
-            background: #d5e9e5;
-            border-right: 1px solid #a9cbc6;
-            border-left: 1px solid #a9cbc6;
+            background: var(--score-header);
+            border-right: 1px solid var(--border);
+            border-left: 1px solid var(--border);
         }
 
         table.daily-table tbody tr {
-            border-bottom: 1px solid #e4eceb;
+            border-bottom: 1px solid var(--border);
             transition: background-color 0.15s ease;
         }
 
-        table.daily-table tbody tr:last-child {
-            border-bottom: none;
-        }
-
         table.daily-table tbody tr.completed-row td.work-cell {
-            color: var(--primary-dark);
-            background: #f6fbfa;
+            background: var(--card-alt);
         }
 
         table.daily-table td {
-            padding: 10px 8px;
+            padding: 8px;
             vertical-align: middle;
-            font-size: 14px;
+            font-size: 13.5px;
         }
 
         table.daily-table td.work-cell {
             text-align: right;
             font-weight: 700;
             padding-right: 12px;
-            border-right: 3px solid #d1e8e3;
+            border-right: 3px solid var(--primary-border);
             line-height: 1.4;
+        }
+
+        .work-cell-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+        }
+
+        .work-title-text {
+            flex: 1;
             cursor: pointer;
         }
+
+        .task-actions-btn {
+            background: transparent;
+            border: none;
+            color: var(--muted);
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .task-actions-btn:hover { opacity: 1; color: var(--text); }
 
         table.daily-table td.duration-cell {
             text-align: center;
             font-weight: 800;
-            color: var(--primary-dark);
-            background: #fbfdfd;
-            border-right: 1px solid #e4eceb;
-            border-left: 1px solid #e4eceb;
-            font-size: 13.5px;
+            color: var(--text);
+            background: var(--paper);
+            border-right: 1px solid var(--border);
+            border-left: 1px solid var(--border);
+            font-size: 13px;
+            cursor: pointer;
         }
 
         table.daily-table td.check-cell {
             padding: 0;
             text-align: center;
             cursor: pointer;
-            position: relative;
             height: 46px;
             user-select: none;
         }
@@ -482,39 +561,38 @@
             height: 30px;
             margin: 0 auto;
             border-radius: 8px;
-            border: 2px solid #b7ccc9;
+            border: 2px solid var(--border);
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.18s ease;
-            background: #ffffff;
+            background: var(--paper);
             color: transparent;
             font-size: 18px;
             font-weight: 800;
         }
 
         td.check-cell[aria-pressed="true"] .check-box-ui {
-            background: var(--primary);
-            border-color: var(--primary);
+            background: #26756f;
+            border-color: #26756f;
             color: #ffffff;
             box-shadow: 0 3px 8px rgba(38, 117, 111, 0.28);
         }
 
-        /* صفوف المجموع والنسبة في جدول اليوم */
         tr.daily-summary-row td {
             background: var(--primary-light);
-            border-top: 2px solid var(--primary);
+            border-top: 2px solid #26756f;
             font-weight: 800;
             padding: 10px 12px;
         }
 
         tr.daily-summary-row.perc-row td {
             background: var(--amber-light);
-            border-top: 1px solid #f5d08a;
+            border-top: 1px solid var(--amber-border);
             color: var(--amber);
         }
 
-        /* أزرار الإجراءات السريعة لليوم */
+        /* أزرار الإجراءات */
         .action-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -522,87 +600,50 @@
             margin-top: 14px;
         }
 
-        .btn-primary-print {
-            grid-column: span 2;
-            background: var(--primary);
-            color: #ffffff;
-            border: none;
-            padding: 12px 16px;
+        .btn-action {
+            background: var(--card-alt);
+            color: var(--text);
+            border: 1px solid var(--border);
+            padding: 10px 12px;
             border-radius: 11px;
             font-family: 'Tajawal', sans-serif;
-            font-size: 14.5px;
+            font-size: 13px;
             font-weight: 800;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            box-shadow: 0 4px 12px rgba(38, 117, 111, 0.22);
-            transition: background 0.2s ease;
-        }
-
-        .btn-primary-print:hover {
-            background: var(--primary-dark);
-        }
-
-        .btn-secondary-action {
-            background: #f3f8f7;
-            color: var(--primary-dark);
-            border: 1px solid var(--primary-border);
-            padding: 9px 12px;
-            border-radius: 10px;
-            font-family: 'Tajawal', sans-serif;
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             gap: 6px;
+            transition: all 0.2s ease;
         }
 
-        .reset-btn {
-            background-color: var(--danger-light);
+        .btn-action.danger {
+            background: var(--danger-light);
             color: var(--danger);
-            border: 1px solid var(--danger-border);
-            padding: 9px 12px;
-            border-radius: 10px;
-            font-family: 'Tajawal', sans-serif;
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
+            border-color: var(--danger-border);
         }
 
         /* الأحاديث النبوية */
-        .hadith-section {
-            margin-top: 14px;
-        }
+        .hadith-section { margin-top: 14px; }
 
         blockquote {
             margin: 0 0 8px;
-            padding: 9px 12px;
-            color: #405451;
-            background: #f7faf9;
-            border-right: 3px solid var(--primary);
-            border-radius: 4px 8px 8px 4px;
+            padding: 10px 12px;
+            color: var(--text);
+            background: var(--card-alt);
+            border-right: 3.5px solid #26756f;
+            border-radius: 4px 10px 10px 4px;
             font-family: 'Amiri', serif;
             font-size: 14.5px;
-            line-height: 1.75;
+            line-height: 1.7;
             text-align: right;
         }
 
-        /* الشريط السفلي (الاسم) */
+        /* الشريط السفلي */
         .bottom-bar {
             margin-top: 16px;
             padding-top: 14px;
-            border-top: 1px solid #dce6e4;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+            border-top: 1px solid var(--border);
         }
 
         .name-field {
@@ -621,31 +662,24 @@
             font-family: 'Tajawal', sans-serif;
             font-size: 15px;
             font-weight: 700;
-            color: var(--primary-dark);
+            color: var(--text);
             padding: 4px 8px;
             outline: none;
         }
 
-        .name-field input:focus {
-            border-bottom: 2px solid var(--primary);
-        }
+        .name-field input:focus { border-bottom: 2px solid #26756f; }
 
-        /* ==================== قسم الداشبورد الشهري ==================== */
-        .view-panel {
-            display: none;
-        }
-
-        .view-panel.active {
-            display: block;
-        }
+        /* قسم الداشبورد الشهري */
+        .view-panel { display: none; }
+        .view-panel.active { display: block; }
 
         .month-selector-bar {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: #f4f9f8;
-            border: 1px solid var(--primary-border);
-            border-radius: 12px;
+            background: var(--card-alt);
+            border: 1px solid var(--border);
+            border-radius: 13px;
             padding: 8px 12px;
             margin-bottom: 14px;
         }
@@ -653,7 +687,7 @@
         .month-title-label {
             font-size: 16px;
             font-weight: 800;
-            color: var(--primary-dark);
+            color: var(--text);
         }
 
         .kpi-grid {
@@ -664,37 +698,21 @@
         }
 
         .kpi-card {
-            background: #f8fbfb;
-            border: 1px solid #d5e6e3;
-            border-radius: 12px;
+            background: var(--card-alt);
+            border: 1px solid var(--border);
+            border-radius: 13px;
             padding: 12px;
             text-align: right;
         }
 
-        .kpi-label {
-            font-size: 12px;
-            color: var(--muted);
-            font-weight: 700;
-        }
-
-        .kpi-value {
-            font-size: 21px;
-            font-weight: 800;
-            color: var(--primary-dark);
-            margin-top: 4px;
-        }
-
-        .kpi-sub {
-            font-size: 11px;
-            color: var(--primary);
-            font-weight: 600;
-            margin-top: 2px;
-        }
+        .kpi-label { font-size: 12px; color: var(--muted); font-weight: 700; }
+        .kpi-value { font-size: 21px; font-weight: 900; color: var(--text); margin-top: 4px; }
+        .kpi-sub { font-size: 11px; color: #26756f; font-weight: 700; margin-top: 2px; }
 
         .dashboard-card {
-            background: #ffffff;
+            background: var(--paper);
             border: 1px solid var(--border);
-            border-radius: 12px;
+            border-radius: 14px;
             padding: 14px;
             margin-bottom: 14px;
         }
@@ -703,19 +721,14 @@
             margin: 0 0 12px;
             font-size: 14.5px;
             font-weight: 800;
-            color: var(--primary-dark);
+            color: var(--text);
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
 
-        .chart-box {
-            position: relative;
-            height: 210px;
-            width: 100%;
-        }
+        .chart-box { position: relative; height: 210px; width: 100%; }
 
-        /* خريطة الالتزام الشهرية (Calendar Heatmap) */
         .month-heatmap-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
@@ -733,7 +746,7 @@
         .heatmap-cell {
             aspect-ratio: 1;
             border-radius: 8px;
-            border: 1px solid #e1ecea;
+            border: 1px solid var(--border);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -744,31 +757,19 @@
             transition: transform 0.12s ease;
         }
 
-        .heatmap-cell:active {
-            transform: scale(0.93);
-        }
+        .heatmap-cell:active { transform: scale(0.93); }
+        .heatmap-cell .hm-perc { font-size: 9.5px; font-weight: 700; opacity: 0.88; }
 
-        .heatmap-cell .hm-perc {
-            font-size: 9.5px;
-            font-weight: 700;
-            opacity: 0.85;
-        }
-
-        .hm-lvl-0 { background: #f8fafa; color: #7b8e8d; }
+        .hm-lvl-0 { background: var(--card-alt); color: var(--muted); }
         .hm-lvl-1 { background: #d8f3ec; color: #165246; border-color: #b2e4d8; }
         .hm-lvl-2 { background: #82dec9; color: #0d3b32; border-color: #5bcbb2; }
         .hm-lvl-3 { background: #26756f; color: #ffffff; border-color: #1d5d58; }
         .hm-lvl-4 { background: #00b884; color: #ffffff; border-color: #00996d; }
 
-        /* قائمة التزام الأعمال التفصيلية في الشهر */
-        .task-stat-item {
-            margin-bottom: 10px;
-        }
+        body.dark-theme .hm-lvl-1 { background: #163e36; color: var(--neon-mint); border-color: #1f574c; }
+        body.dark-theme .hm-lvl-2 { background: #1c5247; color: #c3ede4; border-color: #277062; }
 
-        .task-stat-item:last-child {
-            margin-bottom: 0;
-        }
-
+        .task-stat-item { margin-bottom: 11px; }
         .task-stat-header {
             display: flex;
             justify-content: space-between;
@@ -780,22 +781,22 @@
 
         .task-stat-bar {
             height: 7px;
-            background: #e9f2f0;
+            background: var(--nav-bg);
             border-radius: 99px;
             overflow: hidden;
         }
 
         .task-stat-fill {
             height: 100%;
-            background: var(--primary);
+            background: #26756f;
             border-radius: 99px;
         }
 
-        /* نافذة التأكيد المخصصة (بديل confirm المتوافق مع جميع المتصفحات) */
+        /* نافذة المودال المنبثقة لإضافة وتعديل المهام وللتأكيد */
         .modal-backdrop {
             position: fixed;
             inset: 0;
-            background: rgba(15, 36, 33, 0.55);
+            background: rgba(0, 0, 0, 0.6);
             display: none;
             align-items: center;
             justify-content: center;
@@ -803,73 +804,109 @@
             padding: 16px;
         }
 
-        .modal-backdrop.open {
-            display: flex;
-        }
+        .modal-backdrop.open { display: flex; }
 
         .modal-box {
-            background: #ffffff;
-            border-radius: 14px;
-            max-width: 380px;
+            background: var(--paper);
+            border-radius: 16px;
+            max-width: 400px;
             width: 100%;
-            padding: 18px;
+            padding: 20px;
             border: 1px solid var(--border);
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
-            text-align: center;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+            text-align: right;
         }
 
         .modal-title {
-            font-size: 16px;
+            font-size: 16.5px;
             font-weight: 800;
-            color: var(--primary-dark);
-            margin: 0 0 8px;
+            color: var(--text);
+            margin: 0 0 12px;
         }
 
-        .modal-desc {
-            font-size: 13.5px;
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12.5px;
+            font-weight: 700;
             color: var(--muted);
-            margin: 0 0 16px;
-            line-height: 1.5;
+            margin-bottom: 5px;
+        }
+
+        .form-input {
+            width: 100%;
+            background: var(--card-alt);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 9px 12px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 14px;
+            color: var(--text);
+            outline: none;
+        }
+
+        .form-input:focus { border-color: #26756f; }
+
+        .quick-chips {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 6px;
+        }
+
+        .score-chip {
+            background: var(--nav-bg);
+            border: 1px solid var(--border);
+            padding: 3px 10px;
+            border-radius: 16px;
+            font-size: 11.5px;
+            font-weight: 700;
+            cursor: pointer;
+            color: var(--text);
         }
 
         .modal-actions {
             display: flex;
             gap: 10px;
-            justify-content: center;
+            margin-top: 18px;
         }
 
         .modal-btn {
             flex: 1;
-            padding: 9px 14px;
-            border-radius: 9px;
+            padding: 10px 14px;
+            border-radius: 10px;
             font-family: 'Tajawal', sans-serif;
             font-size: 13.5px;
-            font-weight: 700;
+            font-weight: 800;
             cursor: pointer;
             border: 1px solid transparent;
+            text-align: center;
         }
 
         .modal-btn-cancel {
-            background: #f1f5f4;
+            background: var(--nav-bg);
             color: var(--text);
             border-color: var(--border);
         }
 
-        .modal-btn-confirm {
+        .modal-btn-primary {
+            background: #26756f;
+            color: #ffffff;
+        }
+
+        .modal-btn-danger {
             background: var(--danger);
             color: #ffffff;
         }
 
-        /* ==================== قسم الطباعة الأسبوعي الكامل ==================== */
-        /* يظهر فقط عند الطباعة أو عند فتح معاينة جدول الأسبوع الكامل */
-        .print-weekly-sheet {
-            display: none;
-        }
-
+        /* نافذة المعاينة الأسبوعية */
         .weekly-preview-modal {
             position: fixed;
             inset: 0;
-            background: rgba(13, 35, 32, 0.65);
+            background: rgba(0, 0, 0, 0.65);
             z-index: 999;
             display: none;
             align-items: center;
@@ -877,295 +914,115 @@
             padding: 12px;
         }
 
-        .weekly-preview-modal.open {
-            display: flex;
-        }
+        .weekly-preview-modal.open { display: flex; }
 
         .weekly-preview-content {
-            background: #ffffff;
+            background: var(--paper);
             width: 100%;
-            max-width: 1100px;
+            max-width: 900px;
             max-height: 90vh;
-            border-radius: 14px;
+            border-radius: 16px;
             padding: 16px;
             overflow-y: auto;
-            box-shadow: 0 16px 40px rgba(0,0,0,0.25);
+            border: 1px solid var(--border);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.3);
         }
 
-        .preview-toolbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--border);
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        /* تنسيق جدول الأسبوع الكامل (الموروث من التصميم الأصلي للطباعة والمعاينة) */
         .full-week-table-wrap {
             width: 100%;
             overflow-x: auto;
             border: 1px solid var(--border);
-            border-radius: 8px;
+            border-radius: 10px;
         }
 
         table.full-week-table {
             width: 100%;
-            min-width: 780px;
-            table-layout: fixed;
+            min-width: 760px;
             border-collapse: collapse;
             direction: rtl;
-            background: #ffffff;
         }
 
-        table.full-week-table col.work-column { width: 32%; }
-        table.full-week-table col.duration-column { width: 6%; }
-        table.full-week-table col.day-column { width: 8.85%; }
-
-        table.full-week-table thead th {
-            height: 38px;
-            padding: 5px 4px;
-            color: var(--primary-dark);
-            background: #e2f0ed;
-            border: 1px solid #a9cbc6;
-            font-size: 12.5px;
-            font-weight: 800;
-            text-align: center;
-        }
-
-        table.full-week-table thead th:first-child {
-            color: #ffffff;
-            background: var(--primary);
-            border-color: var(--primary);
-            text-align: right;
-            padding-right: 10px;
-        }
-
-        table.full-week-table tbody td {
-            height: 28px;
-            padding: 4px 6px;
+        table.full-week-table th, table.full-week-table td {
+            padding: 6px 8px;
             border: 1px solid var(--border);
-            font-size: 12.5px;
             text-align: center;
+            font-size: 12.5px;
         }
 
-        table.full-week-table td.work-cell {
-            text-align: right;
-            font-weight: 700;
-            padding-right: 10px;
-            border-right: 3px solid #d1e8e3;
-            white-space: nowrap;
-        }
-
-        table.full-week-table td.duration-cell {
-            font-weight: 800;
-            color: var(--primary-dark);
-            background: #fbfdfd;
-        }
-
-        table.full-week-table td.week-mark-cell {
-            font-weight: 800;
-            color: var(--primary);
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        table.full-week-table tr.total-row td {
-            background: var(--primary-light);
-            border-top: 2px solid var(--primary);
-            font-weight: 800;
-            color: var(--primary-dark);
-        }
-
-        table.full-week-table tr.percentage-row td {
-            background: #fffbf5;
-            color: #d97706;
-            font-weight: 800;
-        }
-
-        /* إعدادات الطباعة لملف PDF لجدول الأسبوع كاملاً */
-        @page {
-            size: A4 landscape;
-            margin: 7mm;
-        }
-
-        @media print {
-            html, body {
-                width: 100%;
-                margin: 0;
-                padding: 0;
-                background: #ffffff !important;
-                font-size: 10px;
-            }
-
-            /* إخفاء واجهة الموبايل والنوافذ المنبثقة عند الطباعة */
-            .app-shell,
-            .weekly-preview-modal,
-            .modal-backdrop {
-                display: none !important;
-            }
-
-            /* إظهار ورقة جدول الأسبوع الكاملة المخصصة للطباعة */
-            .print-weekly-sheet {
-                display: block !important;
-                width: 100%;
-                margin: 0;
-                padding: 0;
-            }
-
-            .print-weekly-sheet .verse-card {
-                margin-bottom: 7px;
-                padding: 5px 14px 4px;
-                background: #f5faf9 !important;
-                border: 1px solid var(--primary-border);
-                border-top: 3px solid var(--primary);
-                border-radius: 6px;
-                break-inside: avoid;
-            }
-
-            .print-weekly-sheet .verse {
-                font-size: 18px;
-                line-height: 1.5;
-            }
-
-            .print-weekly-sheet .level {
-                margin-top: 2px;
-                padding: 1px 10px;
-                font-size: 10px;
-            }
-
-            .print-weekly-sheet .full-week-table-wrap {
-                overflow: visible;
-                border: 1px solid var(--border);
-                border-radius: 0;
-            }
-
-            .print-weekly-sheet table.full-week-table {
-                width: 100%;
-                min-width: 0;
-                table-layout: fixed;
-                border-collapse: collapse;
-                break-inside: avoid;
-            }
-
-            .print-weekly-sheet table.full-week-table thead th {
-                height: 25px;
-                padding: 3px;
-                font-size: 10px;
-                background: #e2f0ed !important;
-                border: 1px solid #a9cbc6;
-            }
-
-            .print-weekly-sheet table.full-week-table thead th:first-child {
-                color: #ffffff !important;
-                background: var(--primary) !important;
-                padding-right: 8px;
-            }
-
-            .print-weekly-sheet table.full-week-table tbody tr {
-                height: 20px;
-                break-inside: avoid;
-            }
-
-            .print-weekly-sheet table.full-week-table tbody td {
-                height: 20px;
-                padding: 2px 5px;
-                font-size: 10px;
-                border: 1px solid #cbd8d7;
-            }
-
-            .print-weekly-sheet .hadith-section {
-                margin-top: 8px;
-                break-inside: avoid;
-            }
-
-            .print-weekly-sheet blockquote {
-                margin: 0 0 5px;
-                padding: 4px 9px;
-                font-size: 10.5px;
-                line-height: 1.5;
-                background: #f7faf9 !important;
-                border-right: 2px solid var(--primary);
-            }
-
-            .print-weekly-sheet .print-footer {
-                margin-top: 8px;
-                padding-top: 6px;
-                border-top: 1px solid #dce6e4;
-                display: flex;
-                justify-content: space-between;
-                font-size: 11px;
-                font-weight: 700;
-            }
-
-            * {
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-        }
+        table.full-week-table th { background: var(--table-header); color: var(--text); font-weight: 800; }
+        table.full-week-table th:first-child { background: #26756f; color: #fff; text-align: right; }
+        table.full-week-table td.work-cell { text-align: right; font-weight: 700; }
+        table.full-week-table td.week-mark-cell { cursor: pointer; font-size: 16px; font-weight: 900; color: #26756f; }
+        table.full-week-table tr.total-row td { background: var(--primary-light); font-weight: 800; }
+        table.full-week-table tr.percentage-row td { background: var(--amber-light); color: var(--amber); font-weight: 800; }
     </style>
 </head>
 
 <body>
 
-    <!-- واجهة التطبيق الرئيسية المتوافقة مع الهاتف -->
     <main class="app-shell">
 
-        <!-- شريط التنقل بين اليوم والداشبورد الشهري -->
-        <nav class="top-nav" aria-label="التنقل الرئيسي">
-            <button type="button" class="tab-btn active" id="tabDailyBtn">
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                    <line x1="16" y1="2" x2="16" y2="6"></line>
-                    <line x1="8" y1="2" x2="8" y2="6"></line>
-                    <line x1="3" y1="10" x2="21" y2="10"></line>
+        <!-- شريط التبديل العلوي + زر الوضع الليلي -->
+        <div class="top-bar-row">
+            <nav class="top-nav" aria-label="التنقل الرئيسي">
+                <button type="button" class="tab-btn active" id="tabDailyBtn">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                    جدول اليوم
+                </button>
+                <button type="button" class="tab-btn" id="tabDashboardBtn">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="20" x2="18" y2="10"></line>
+                        <line x1="12" y1="20" x2="12" y2="4"></line>
+                        <line x1="6" y1="20" x2="6" y2="14"></line>
+                    </svg>
+                    إحصائيات الشهر
+                </button>
+            </nav>
+            <button type="button" class="theme-toggle-btn" id="themeToggleBtn" title="تبديل الوضع الليلي">
+                <svg id="themeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                 </svg>
-                جدول اليوم
             </button>
-            <button type="button" class="tab-btn" id="tabDashboardBtn">
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="18" y1="20" x2="18" y2="10"></line>
-                    <line x1="12" y1="20" x2="12" y2="4"></line>
-                    <line x1="6" y1="20" x2="6" y2="14"></line>
-                </svg>
-                إحصائيات الشهر
-            </button>
-        </nav>
+        </div>
 
         <!-- الآية القرآنية -->
         <header class="verse-card">
             <p class="verse">﴿ وَاتَّقُوا يَوْمًا تُرْجَعُونَ فِيهِ إِلَى اللَّهِ ثُمَّ تُوَفَّى كُلُّ نَفْسٍ مَا كَسَبَتْ وَهُمْ لَا يُظْلَمُونَ ﴾</p>
             <div class="header-badges">
-                <span class="level">[المستوى الأول]</span>
+                <span class="badge-pill">[المستوى الأول]</span>
+                <span class="badge-pill" id="totalDailyScorePill">مجموع الدرجات اليومي: 195 د</span>
             </div>
         </header>
 
         <!-- ==================== القسم الأول: عرض اليوم الواحد ==================== -->
         <section id="dailyViewPanel" class="view-panel active">
 
-            <!-- شريط مستوى التقدم اليومي المتقدم (مطابق للصورة المرفقة) -->
-            <div class="daily-progress-banner" aria-label="مستوى التقدم اليومي">
+            <!-- شريط مستوى التقدم اليومي المتقدم بالدرجات -->
+            <div class="daily-progress-banner">
                 <div class="progress-top-meta">
                     <span>مستوى التقدم اليومي</span>
-                    <span id="bannerTasksCount">0 / 15 عمل</span>
+                    <span id="bannerTasksCount">0 / 16 عمل</span>
                 </div>
                 <div class="progress-bar-row">
                     <div class="progress-track">
                         <div class="progress-fill" id="dailyProgressFill"></div>
                     </div>
-                    <div class="progress-stats-text" id="dailyProgressText">0 / 195 · 0%</div>
+                    <div class="progress-stats-text" id="dailyProgressText">0 / 195 د · 0%</div>
                 </div>
                 <div class="progress-sub-row">
-                    <span id="weeklyPointsSummary">إنجاز الأسبوع: 0 / 1365 دقيقة (0%)</span>
+                    <span id="weeklyPointsSummary">إنجاز الأسبوع: 0 / 1365 درجة (0%)</span>
                     <span id="dailyMotivationText">ابدأ يومك بذكر الله</span>
                 </div>
             </div>
 
-            <!-- شريط التاريخ الفعلي (System Date) -->
+            <!-- شريط التنقل بالتاريخ -->
             <div class="date-navigator">
-                <button type="button" class="nav-arrow-btn" id="prevDayBtn" title="اليوم السابق" aria-label="اليوم السابق">
+                <button type="button" class="nav-arrow-btn" id="prevDayBtn" title="اليوم السابق">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </button>
                 <div class="current-date-info">
@@ -1176,15 +1033,27 @@
                     <div class="current-date-sub" id="currentFullDate">29 أكتوبر 2026</div>
                 </div>
                 <button type="button" class="go-today-btn" id="goTodayBtn" style="display: none;">العودة لليوم</button>
-                <button type="button" class="nav-arrow-btn" id="nextDayBtn" title="اليوم التالي" aria-label="اليوم التالي">
+                <button type="button" class="nav-arrow-btn" id="nextDayBtn" title="اليوم التالي">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
                 </button>
             </div>
 
-            <!-- شريط أيام الأسبوع الحالي للتبديل السريع -->
+            <!-- شريط أيام الأسبوع المصغر -->
             <div class="week-strip" id="weekStripContainer"></div>
 
-            <!-- جدول أعمال اليوم الواحد فقط -->
+            <!-- شريط أدوات المهام -->
+            <div class="tasks-toolbar">
+                <div class="tasks-toolbar-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <span>جدول الأعمال والدرجات</span>
+                </div>
+                <button type="button" class="btn-add-task" id="openAddTaskModalBtn">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    إضافة مهمة
+                </button>
+            </div>
+
+            <!-- جدول أعمال اليوم الواحد -->
             <div class="mobile-table-card">
                 <table class="daily-table" aria-label="جدول أعمال اليوم">
                     <colgroup>
@@ -1195,7 +1064,7 @@
                     <thead>
                         <tr>
                             <th scope="col">العمل اليومي</th>
-                            <th scope="col">دقائق</th>
+                            <th scope="col">د (درجات)</th>
                             <th scope="col" id="tableDayHeader">اليوم</th>
                         </tr>
                     </thead>
@@ -1203,31 +1072,14 @@
                 </table>
             </div>
 
-            <!-- أزرار الطباعة والمعاينة وإعادة الضبط -->
+            <!-- أزرار الإجراءات السريعة -->
             <div class="action-grid">
-                <button type="button" class="btn-primary-print" id="printWeekBtn">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="6 9 6 2 18 2 18 9"></polyline>
-                        <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
-                        <rect x="6" y="14" width="12" height="8"></rect>
-                    </svg>
-                    طباعة جدول الأسبوع كاملاً بما أنجزته
-                </button>
-
-                <button type="button" class="btn-secondary-action" id="previewWeekBtn">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="3" width="18" height="18" rx="2"></rect>
-                        <line x1="3" y1="9" x2="21" y2="9"></line>
-                        <line x1="9" y1="21" x2="9" y2="9"></line>
-                    </svg>
+                <button type="button" class="btn-action" id="previewWeekBtn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
                     معاينة جدول الأسبوع
                 </button>
-
-                <button type="button" class="reset-btn" id="resetWeekBtn">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="3 6 5 6 21 6"></polyline>
-                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                    </svg>
+                <button type="button" class="btn-action danger" id="resetWeekBtn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
                     بدء أسبوع جديد
                 </button>
             </div>
@@ -1243,7 +1095,6 @@
         <!-- ==================== القسم الثاني: داشبورد إحصائيات الشهر ==================== -->
         <section id="dashboardViewPanel" class="view-panel">
 
-            <!-- شريط اختيار الشهر -->
             <div class="month-selector-bar">
                 <button type="button" class="nav-arrow-btn" id="prevMonthBtn" aria-label="الشهر السابق">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
@@ -1254,7 +1105,6 @@
                 </button>
             </div>
 
-            <!-- شريط تقدم الشهر الإجمالي بنفس تصميم الصورة المرفقة -->
             <div class="daily-progress-banner">
                 <div class="progress-top-meta">
                     <span>مؤشر الإنجاز الشهري التراكمي</span>
@@ -1264,16 +1114,15 @@
                     <div class="progress-track">
                         <div class="progress-fill" id="monthProgressFill"></div>
                     </div>
-                    <div class="progress-stats-text" id="monthProgressText">0 / 6045 · 0%</div>
+                    <div class="progress-stats-text" id="monthProgressText">0 / 6045 د · 0%</div>
                 </div>
             </div>
 
-            <!-- بطاقات الملخص الرقمي للشهر -->
             <div class="kpi-grid">
                 <div class="kpi-card">
-                    <div class="kpi-label">إجمالي دقائق الشهر</div>
-                    <div class="kpi-value" id="kpiTotalMinutes">0</div>
-                    <div class="kpi-sub" id="kpiTotalHours">يعادل 0 ساعة عبادة</div>
+                    <div class="kpi-label">إجمالي درجات الشهر</div>
+                    <div class="kpi-value" id="kpiTotalMinutes">0 د</div>
+                    <div class="kpi-sub" id="kpiTotalScoreSub">من أصل 0 درجة</div>
                 </div>
                 <div class="kpi-card">
                     <div class="kpi-label">متوسط الإنجاز اليومي</div>
@@ -1292,17 +1141,13 @@
                 </div>
             </div>
 
-            <!-- الرسم البياني لتطور الإنجاز خلال أيام الشهر -->
             <div class="dashboard-card">
-                <h3 class="dashboard-card-title">
-                    <span>منحنى الإنجاز اليومي خلال الشهر (%)</span>
-                </h3>
+                <h3 class="dashboard-card-title">منحنى الإنجاز اليومي خلال الشهر (%)</h3>
                 <div class="chart-box">
                     <canvas id="monthlyTrendChart"></canvas>
                 </div>
             </div>
 
-            <!-- تقويم الالتزام الشهري (اضغط على أي يوم للانتقال إليه) -->
             <div class="dashboard-card">
                 <h3 class="dashboard-card-title">
                     <span>خريطة أيام الشهر</span>
@@ -1311,121 +1156,139 @@
                 <div class="month-heatmap-grid" id="monthHeatmapGrid"></div>
             </div>
 
-            <!-- نسب الالتزام بكل عمل خلال الشهر -->
             <div class="dashboard-card">
-                <h3 class="dashboard-card-title">
-                    <span>تفصيل الإنجاز حسب كل عمل في الشهر</span>
-                </h3>
+                <h3 class="dashboard-card-title">تفصيل الإنجاز حسب كل عمل في الشهر</h3>
                 <div id="monthlyTaskBreakdown"></div>
             </div>
 
         </section>
 
-        <!-- الشريط السفلي لحفظ الاسم -->
+        <!-- الشريط السفلي للاسم -->
         <footer class="bottom-bar">
             <div class="name-field">
                 <span>الاسم:</span>
-                <input type="text" id="userNameInput" placeholder="اكتب اسمك هنا ليظهر في الطباعة..." autocomplete="off">
+                <input type="text" id="userNameInput" placeholder="اكتب اسمك هنا لحفظه ومشاركته..." autocomplete="off">
             </div>
         </footer>
 
     </main>
 
-    <!-- نافذة معاينة جدول الأسبوع الكامل قبل الطباعة -->
-    <div class="weekly-preview-modal" id="weeklyPreviewModal" role="dialog" aria-modal="true">
-        <div class="weekly-preview-content">
-            <div class="preview-toolbar">
-                <strong style="color: var(--primary-dark); font-size: 15px;" id="previewModalTitle">معاينة جدول الأسبوع الكامل</strong>
-                <div style="display: flex; gap: 8px;">
-                    <button type="button" class="btn-secondary-action" id="modalPrintNowBtn" style="background: var(--primary); color: #fff; border-color: var(--primary);">
-                        طباعة الآن
-                    </button>
-                    <button type="button" class="reset-btn" id="closePreviewModalBtn">
-                        إغلاق
-                    </button>
+    <!-- نافذة إضافة وتعديل مهمة -->
+    <div class="modal-backdrop" id="taskFormModal">
+        <div class="modal-box">
+            <h3 class="modal-title" id="taskModalTitle">إضافة مهمة جديدة</h3>
+            <div class="form-group">
+                <label for="taskTitleInput">عنوان العمل اليومي:</label>
+                <input type="text" id="taskTitleInput" class="form-input" placeholder="مثال: قيام الليل، قراءة ورد..." autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="taskScoreInput">درجة المهمة (نقاط الإنجاز):</label>
+                <input type="number" id="taskScoreInput" class="form-input" placeholder="مثال: 15" min="1" max="500">
+                <div class="quick-chips">
+                    <span class="score-chip" data-score="5">5 د</span>
+                    <span class="score-chip" data-score="7">7 د</span>
+                    <span class="score-chip" data-score="10">10 د</span>
+                    <span class="score-chip" data-score="15">15 د</span>
+                    <span class="score-chip" data-score="20">20 د</span>
+                    <span class="score-chip" data-score="30">30 د</span>
                 </div>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="modal-btn modal-btn-cancel" id="cancelTaskModalBtn">إلغاء</button>
+                <button type="button" class="modal-btn modal-btn-danger" id="deleteTaskModalBtn" style="display: none;">حذف المهمة</button>
+                <button type="button" class="modal-btn modal-btn-primary" id="saveTaskModalBtn">حفظ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة معاينة جدول الأسبوع -->
+    <div class="weekly-preview-modal" id="weeklyPreviewModal">
+        <div class="weekly-preview-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <strong style="font-size: 15px;" id="previewModalTitle">معاينة جدول الأسبوع الكامل</strong>
+                <button type="button" class="btn-action" id="closePreviewModalBtn">إغلاق</button>
             </div>
             <div id="previewTableMount"></div>
         </div>
     </div>
 
-    <!-- نافذة تأكيد مسح بيانات الأسبوع -->
-    <div class="modal-backdrop" id="confirmResetModal" role="dialog" aria-modal="true">
-        <div class="modal-box">
+    <!-- نافذة تأكيد مسح الأسبوع -->
+    <div class="modal-backdrop" id="confirmResetModal">
+        <div class="modal-box" style="text-align: center;">
             <h3 class="modal-title">بدء أسبوع جديد</h3>
-            <p class="modal-desc">هل أنت متأكد من رغبتك في مسح جميع علامات هذا الأسبوع للبدء من جديد؟ (لن يتم مسح اسمك أو سجلات الأسابيع الأخرى)</p>
+            <p style="font-size: 13.5px; color: var(--muted); margin-bottom: 16px;">هل أنت متأكد من رغبتك في مسح علامات هذا الأسبوع للبدء من جديد؟ (لن يتم مسح مهامك أو سجلات الأسابيع الأخرى)</p>
             <div class="modal-actions">
                 <button type="button" class="modal-btn modal-btn-cancel" id="cancelResetBtn">إلغاء</button>
-                <button type="button" class="modal-btn modal-btn-confirm" id="confirmResetActionBtn">نعم، مسح الأسبوع</button>
+                <button type="button" class="modal-btn modal-btn-danger" id="confirmResetActionBtn">نعم، مسح</button>
             </div>
         </div>
     </div>
 
-    <!-- ==================== قالب الطباعة المخفي لجدول الأسبوع كاملاً ==================== -->
-    <section class="print-weekly-sheet" id="printWeeklySheet">
-        <header class="verse-card">
-            <p class="verse">﴿ وَاتَّقُوا يَوْمًا تُرْجَعُونَ فِيهِ إِلَى اللَّهِ ثُمَّ تُوَفَّى كُلُّ نَفْسٍ مَا كَسَبَتْ وَهُمْ لَا يُظْلَمُونَ ﴾</p>
-            <div class="level">[المستوى الأول] — <span id="printWeekRangeText"></span></div>
-        </header>
-
-        <div id="printTableMount"></div>
-
-        <section class="hadith-section">
-            <blockquote>قال رسول الله ﷺ: «أَحَبُّ الأَعْمَالِ إِلَى اللهِ أَدْوَمُهَا وَإِنْ قَلَّ».</blockquote>
-            <blockquote>قال رسول الله ﷺ: «يَقُولُ اللَّهُ تَعَالَى: أَنَا عِنْدَ ظَنِّ عَبْدِي بِي، وَأَنَا مَعَهُ إِذَا ذَكَرَنِي، فَإِنْ ذَكَرَنِي فِي نَفْسِهِ ذَكَرْتُهُ فِي نَفْسِي، وَإِنْ ذَكَرَنِي فِي مَلَإٍ ذَكَرْتُهُ فِي مَلَإٍ خَيْرٍ مِنْهُمْ، وَإِنْ تَقَرَّبَ إِلَيَّ بِشِبْرٍ تَقَرَّبْتُ إِلَيْهِ ذِرَاعًا، وَإِنْ تَقَرَّبَ إِلَيَّ ذِرَاعًا تَقَرَّبْتُ إِلَيْهِ بَاعًا، وَإِنْ أَتَانِي يَمْشِي أَتَيْتُهُ هَرْوَلَةً».</blockquote>
-        </section>
-
-        <div class="print-footer">
-            <div>الاسم: <span id="printUserNameSpan">........................................</span></div>
-            <div id="printSummaryStatsSpan"></div>
-        </div>
-    </section>
-
     <script>
-        // قائمة الأعمال اليومية والدقائق المخصصة لكل عمل
-        const TASKS = [
-            { id: 0, title: 'صلاة الفجر: جماعة في المسجد', duration: 15 },
-            { id: 1, title: 'صلاة الفجر: أذكار بعد الصلاة', duration: 7 },
-            { id: 2, title: 'أذكار الصباح', duration: 20 },
-            { id: 3, title: 'صلاة الظهر: جماعة في المسجد', duration: 20 },
-            { id: 4, title: 'صلاة الظهر: أذكار بعد الصلاة', duration: 7 },
-            { id: 5, title: 'صلاة العصر: جماعة في المسجد', duration: 15 },
-            { id: 6, title: 'صلاة العصر: أذكار بعد الصلاة', duration: 7 },
-            { id: 7, title: 'أذكار المساء', duration: 10 },
-            { id: 8, title: 'صلاة المغرب: جماعة في المسجد', duration: 15 },
-            { id: 9, title: 'صلاة المغرب: أذكار بعد الصلاة', duration: 7 },
-            { id: 10, title: 'صلاة العشاء: جماعة في المسجد', duration: 15 },
-            { id: 11, title: 'صلاة العشاء: أذكار بعد الصلاة', duration: 7 },
-            { id: 12, title: 'ورد القرآن', duration: 30 },
-            { id: 13, title: 'الاستغفار', duration: 10 },
-            { id: 14, title: 'الصلاة على النبي ﷺ', duration: 10 },
-            { id: 15, title: 'فينا خير', duration: 10 }
+        // القائمة الافتراضية للمهام بالدرجات (وليس بالدقائق)
+        const DEFAULT_TASKS = [
+            { id: 0, title: 'صلاة الفجر: جماعة في المسجد', score: 15 },
+            { id: 1, title: 'صلاة الفجر: أذكار بعد الصلاة', score: 7 },
+            { id: 2, title: 'أذكار الصباح', score: 20 },
+            { id: 3, title: 'صلاة الظهر: جماعة في المسجد', score: 20 },
+            { id: 4, title: 'صلاة الظهر: أذكار بعد الصلاة', score: 7 },
+            { id: 5, title: 'صلاة العصر: جماعة في المسجد', score: 15 },
+            { id: 6, title: 'صلاة العصر: أذكار بعد الصلاة', score: 7 },
+            { id: 7, title: 'أذكار المساء', score: 10 },
+            { id: 8, title: 'صلاة المغرب: جماعة في المسجد', score: 15 },
+            { id: 9, title: 'صلاة المغرب: أذكار بعد الصلاة', score: 7 },
+            { id: 10, title: 'صلاة العشاء: جماعة في المسجد', score: 15 },
+            { id: 11, title: 'صلاة العشاء: أذكار بعد الصلاة', score: 7 },
+            { id: 12, title: 'ورد القرآن', score: 30 },
+            { id: 13, title: 'الاستغفار', score: 10 },
+            { id: 14, title: 'الصلاة على النبي ﷺ', score: 10 },
+            { id: 15, title: 'فينا خير', score: 10 }
         ];
 
-        const MAX_DAILY_MINUTES = TASKS.reduce((sum, t) => sum + t.duration, 0); // 195 دقيقة
-        const MAX_WEEKLY_MINUTES = MAX_DAILY_MINUTES * 7; // 1365 دقيقة
-
-        // ترتيب الأسبوع يبدأ من السبت (كما في الجدول الأصلي)
         const WEEK_DAYS_AR = ['السبت', 'الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة'];
         const MONTHS_AR = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
 
-        // دوال مساعدة للتعامل الآمن مع التخزين المحلي
         function safeGetStorage(key, fallback) {
             try {
                 const raw = localStorage.getItem(key);
                 return raw ? JSON.parse(raw) : fallback;
-            } catch (e) {
-                return fallback;
-            }
+            } catch (e) { return fallback; }
         }
 
         function safeSetStorage(key, value) {
-            try {
-                localStorage.setItem(key, JSON.stringify(value));
-            } catch (e) {}
+            try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
         }
 
-        // تحويل كائن التاريخ إلى مفتاح نصي YYYY-MM-DD حسب التوقيت المحلي للجهاز
+        // حالة التطبيق
+        let tasks = safeGetStorage('trackerDynamicTasksV3', DEFAULT_TASKS);
+        let recordsByDate = safeGetStorage('trackerRecordsByDateV3', {});
+        let isDarkMode = safeGetStorage('trackerDarkModeV3', false);
+        
+        const systemToday = new Date();
+        let selectedDate = new Date(systemToday.getFullYear(), systemToday.getMonth(), systemToday.getDate());
+        let dashboardMonthDate = new Date(systemToday.getFullYear(), systemToday.getMonth(), 1);
+        let monthlyChartInstance = null;
+        let currentEditingTaskId = null;
+
+        // تطبيق الوضع الليلي
+        function applyTheme(dark) {
+            isDarkMode = dark;
+            if (dark) {
+                document.body.classList.add('dark-theme');
+                document.getElementById('themeIcon').innerHTML = '<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>';
+            } else {
+                document.body.classList.remove('dark-theme');
+                document.getElementById('themeIcon').innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
+            }
+            safeSetStorage('trackerDarkModeV3', dark);
+            if (monthlyChartInstance) renderMonthlyDashboard();
+        }
+
+        document.getElementById('themeToggleBtn').addEventListener('click', () => {
+            applyTheme(!isDarkMode);
+        });
+
+        // دوال التاريخ
         function toDateKey(dateObj) {
             const y = dateObj.getFullYear();
             const m = String(dateObj.getMonth() + 1).padStart(2, '0');
@@ -1433,12 +1296,10 @@
             return `${y}-${m}-${d}`;
         }
 
-        // تحويل يوم JavaScript (الأحد=0..السبت=6) إلى فهرس أسبوع يبدأ بالسبت (السبت=0..الجمعة=6)
         function getSatWeekIndex(dateObj) {
             return (dateObj.getDay() + 1) % 7;
         }
 
-        // الحصول على مصفوفة تواريخ الأسبوع (السبت إلى الجمعة) الذي ينتمي إليه تاريخ معين
         function getWeekDates(referenceDate) {
             const satOffset = getSatWeekIndex(referenceDate);
             const saturday = new Date(referenceDate.getFullYear(), referenceDate.getMonth(), referenceDate.getDate() - satOffset);
@@ -1449,101 +1310,69 @@
             return days;
         }
 
-        // الحالة العامة للتطبيق بالاعتماد على تاريخ النظام (System Date)
-        const systemToday = new Date();
-        let selectedDate = new Date(systemToday.getFullYear(), systemToday.getMonth(), systemToday.getDate());
-        let dashboardMonthDate = new Date(systemToday.getFullYear(), systemToday.getMonth(), 1);
-        let monthlyChartInstance = null;
-
-        // سجل الإنجازات المحفوظ حسب التاريخ: { "YYYY-MM-DD": { "0": true, "1": false, ... } }
-        let recordsByDate = safeGetStorage('trackerRecordsByDateV2', {});
-
-        // ترحيل البيانات القديمة من النسخة السابقة (trackerMarks) إن وجدت للأسبوع الحالي
-        function migrateLegacyMarksIfNeeded() {
-            try {
-                const legacyRaw = localStorage.getItem('trackerMarks');
-                const alreadyMigrated = localStorage.getItem('trackerLegacyMigratedV2');
-                if (legacyRaw && !alreadyMigrated) {
-                    const legacyMarks = JSON.parse(legacyRaw) || {};
-                    const currentWeekDates = getWeekDates(systemToday);
-                    TASKS.forEach((task, rowIdx) => {
-                        for (let dayIdx = 0; dayIdx < 7; dayIdx++) {
-                            const flatIndex = rowIdx * 7 + dayIdx;
-                            if (legacyMarks[flatIndex] === true) {
-                                const dKey = toDateKey(currentWeekDates[dayIdx]);
-                                if (!recordsByDate[dKey]) recordsByDate[dKey] = {};
-                                recordsByDate[dKey][task.id] = true;
-                            }
-                        }
-                    });
-                    safeSetStorage('trackerRecordsByDateV2', recordsByDate);
-                    localStorage.setItem('trackerLegacyMigratedV2', 'true');
-                }
-            } catch (e) {}
+        // حسابات الدرجات الديناميكية
+        function getMaxDailyScore() {
+            return tasks.reduce((sum, t) => sum + (t.score || 0), 0);
         }
-        migrateLegacyMarksIfNeeded();
 
-        // هل المهمة منجزة في تاريخ معين؟
         function isTaskDone(dateKey, taskId) {
             return Boolean(recordsByDate[dateKey] && recordsByDate[dateKey][taskId]);
         }
 
-        // تبديل حالة مهمة في تاريخ معين
         function toggleTaskForDate(dateKey, taskId) {
-            if (!recordsByDate[dateKey]) {
-                recordsByDate[dateKey] = {};
-            }
+            if (!recordsByDate[dateKey]) recordsByDate[dateKey] = {};
             recordsByDate[dateKey][taskId] = !recordsByDate[dateKey][taskId];
-            safeSetStorage('trackerRecordsByDateV2', recordsByDate);
+            safeSetStorage('trackerRecordsByDateV3', recordsByDate);
             renderAll();
         }
 
-        // حساب إحصائيات يوم محدد
         function getDayStats(dateKey) {
-            let minutes = 0;
+            let score = 0;
             let count = 0;
-            TASKS.forEach(t => {
+            tasks.forEach(t => {
                 if (isTaskDone(dateKey, t.id)) {
-                    minutes += t.duration;
+                    score += t.score;
                     count++;
                 }
             });
-            const perc = MAX_DAILY_MINUTES > 0 ? Math.round((minutes / MAX_DAILY_MINUTES) * 100) : 0;
-            return { minutes, count, perc };
+            const maxScore = getMaxDailyScore();
+            const perc = maxScore > 0 ? Math.round((score / maxScore) * 100) : 0;
+            return { score, count, perc, maxScore };
         }
 
-        // حساب إحصائيات الأسبوع (السبت - الجمعة) لتاريخ محدد
         function getWeekStats(refDate) {
             const weekDates = getWeekDates(refDate);
-            let weekMinutes = 0;
+            let weekScore = 0;
             let weekTasksCount = 0;
             weekDates.forEach(d => {
                 const st = getDayStats(toDateKey(d));
-                weekMinutes += st.minutes;
+                weekScore += st.score;
                 weekTasksCount += st.count;
             });
-            const weekPerc = MAX_WEEKLY_MINUTES > 0 ? Math.round((weekMinutes / MAX_WEEKLY_MINUTES) * 100) : 0;
-            return { weekMinutes, weekTasksCount, weekPerc, weekDates };
+            const maxWeeklyScore = getMaxDailyScore() * 7;
+            const weekPerc = maxWeeklyScore > 0 ? Math.round((weekScore / maxWeeklyScore) * 100) : 0;
+            return { weekScore, weekTasksCount, weekPerc, weekDates, maxWeeklyScore };
         }
 
-        // تحديث واجهة اليوم الواحد وشريط التقدم المتقدم
+        // تحديث واجهة اليوم الواحد
         function renderDailyView() {
             const dateKey = toDateKey(selectedDate);
             const todayKey = toDateKey(systemToday);
             const dayIndex = getSatWeekIndex(selectedDate);
             const dayName = WEEK_DAYS_AR[dayIndex];
+            const maxScore = getMaxDailyScore();
 
-            // تحديث عنوان التاريخ
             document.getElementById('currentDayName').textContent = dayName;
             document.getElementById('tableDayHeader').textContent = dayName;
             document.getElementById('currentFullDate').textContent =
                 `${selectedDate.getDate()} ${MONTHS_AR[selectedDate.getMonth()]} ${selectedDate.getFullYear()}`;
+            document.getElementById('totalDailyScorePill').textContent = `مجموع الدرجات اليومي: ${maxScore} د`;
 
             const isToday = dateKey === todayKey;
             document.getElementById('todayBadge').style.display = isToday ? 'inline-block' : 'none';
             document.getElementById('goTodayBtn').style.display = isToday ? 'none' : 'inline-block';
 
-            // تحديث شريط أيام الأسبوع المصغر
+            // شريط أيام الأسبوع المصغر
             const weekStrip = document.getElementById('weekStripContainer');
             weekStrip.innerHTML = '';
             const weekDates = getWeekDates(selectedDate);
@@ -1568,57 +1397,62 @@
                 weekStrip.appendChild(btn);
             });
 
-            // تحديث شريط التقدم اليومي المتقدم (مطابق للصورة المرفقة)
+            // شريط التقدم بالدرجات
             const dayStats = getDayStats(dateKey);
             const weekStats = getWeekStats(selectedDate);
 
             document.getElementById('dailyProgressFill').style.width = `${dayStats.perc}%`;
             document.getElementById('dailyProgressText').textContent =
-                `${dayStats.minutes} / ${MAX_DAILY_MINUTES} · ${dayStats.perc}%`;
+                `${dayStats.score} / ${maxScore} د · ${dayStats.perc}%`;
             document.getElementById('bannerTasksCount').textContent =
-                `${dayStats.count} / ${TASKS.length} عمل`;
+                `${dayStats.count} / ${tasks.length} عمل`;
             document.getElementById('weeklyPointsSummary').textContent =
-                `إنجاز الأسبوع: ${weekStats.weekMinutes} / ${MAX_WEEKLY_MINUTES} دقيقة (${weekStats.weekPerc}%)`;
+                `إنجاز الأسبوع: ${weekStats.weekScore} / ${weekStats.maxWeeklyScore} درجة (${weekStats.weekPerc}%)`;
 
             let motivation = 'ابدأ يومك بذكر الله';
             if (dayStats.perc === 100) motivation = 'ما شاء الله! أتممت ورد اليوم كاملاً';
             else if (dayStats.perc >= 75) motivation = 'همة عالية، بقي القليل على التمام';
             else if (dayStats.perc >= 40) motivation = 'تقدم مبارك، واصل الثبات';
-            else if (dayStats.perc > 0) motivation = 'بداية طيبة، بارك الله في وقتك';
+            else if (dayStats.perc > 0) motivation = 'بداية طيبة، بارك الله في سعيك';
             document.getElementById('dailyMotivationText').textContent = motivation;
 
-            // بناء جدول اليوم الواحد
+            // جدول الأعمال
             const tbody = document.getElementById('dailyTasksBody');
             tbody.innerHTML = '';
 
-            TASKS.forEach(task => {
+            tasks.forEach(task => {
                 const done = isTaskDone(dateKey, task.id);
                 const tr = document.createElement('tr');
                 if (done) tr.classList.add('completed-row');
 
                 const tdWork = document.createElement('td');
                 tdWork.className = 'work-cell';
-                tdWork.textContent = task.title;
-                tdWork.addEventListener('click', () => toggleTaskForDate(dateKey, task.id));
+                tdWork.innerHTML = `
+                    <div class="work-cell-content">
+                        <span class="work-title-text">${task.title}</span>
+                        <button type="button" class="task-actions-btn" title="تعديل المهمة">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                        </button>
+                    </div>
+                `;
+                tdWork.querySelector('.work-title-text').addEventListener('click', () => toggleTaskForDate(dateKey, task.id));
+                tdWork.querySelector('.task-actions-btn').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    openEditTaskModal(task);
+                });
 
                 const tdDur = document.createElement('td');
                 tdDur.className = 'duration-cell';
-                tdDur.textContent = task.duration;
+                tdDur.textContent = `${task.score} د`;
+                tdDur.title = 'اضغط لتعديل درجة المهمة';
+                tdDur.addEventListener('click', () => openEditTaskModal(task));
 
                 const tdCheck = document.createElement('td');
                 tdCheck.className = 'check-cell';
                 tdCheck.setAttribute('role', 'button');
-                tdCheck.setAttribute('tabindex', '0');
                 tdCheck.setAttribute('aria-pressed', String(done));
                 tdCheck.innerHTML = `<div class="check-box-ui">✓</div>`;
-
                 tdCheck.addEventListener('click', () => toggleTaskForDate(dateKey, task.id));
-                tdCheck.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        toggleTaskForDate(dateKey, task.id);
-                    }
-                });
 
                 tr.appendChild(tdWork);
                 tr.appendChild(tdDur);
@@ -1630,13 +1464,13 @@
             const trTotal = document.createElement('tr');
             trTotal.className = 'daily-summary-row';
             trTotal.innerHTML = `
-                <td style="text-align: right; color: var(--primary-dark);">المجموع اليومي (دقائق)</td>
-                <td style="text-align: center; color: var(--muted);">${MAX_DAILY_MINUTES}</td>
-                <td style="text-align: center; color: var(--primary); font-size: 15px;">${dayStats.minutes}</td>
+                <td style="text-align: right;">المجموع اليومي (درجات)</td>
+                <td style="text-align: center;">${maxScore} د</td>
+                <td style="text-align: center; color: #26756f; font-size: 15px;">${dayStats.score} د</td>
             `;
             tbody.appendChild(trTotal);
 
-            // صف النسبة المئوية اليومية
+            // صف النسبة
             const trPerc = document.createElement('tr');
             trPerc.className = 'daily-summary-row perc-row';
             trPerc.innerHTML = `
@@ -1647,30 +1481,106 @@
             tbody.appendChild(trPerc);
         }
 
-        // توليد جدول الأسبوع الكامل (السبت - الجمعة) للمعاينة والطباعة
-        function buildFullWeekTableHTML(refDate, interactive = false) {
-            const weekDates = getWeekDates(refDate);
+        // نافذة إدارة وإضافة وتعديل المهام
+        const taskFormModal = document.getElementById('taskFormModal');
+        const taskTitleInput = document.getElementById('taskTitleInput');
+        const taskScoreInput = document.getElementById('taskScoreInput');
+        const deleteTaskModalBtn = document.getElementById('deleteTaskModalBtn');
+
+        function openAddTaskModal() {
+            currentEditingTaskId = null;
+            document.getElementById('taskModalTitle').textContent = 'إضافة عمل جديد ومناسب';
+            taskTitleInput.value = '';
+            taskScoreInput.value = '10';
+            deleteTaskModalBtn.style.display = 'none';
+            taskFormModal.classList.add('open');
+            taskTitleInput.focus();
+        }
+
+        function openEditTaskModal(task) {
+            currentEditingTaskId = task.id;
+            document.getElementById('taskModalTitle').textContent = 'تعديل المهمة والدرجة';
+            taskTitleInput.value = task.title;
+            taskScoreInput.value = task.score;
+            deleteTaskModalBtn.style.display = 'block';
+            taskFormModal.classList.add('open');
+            taskTitleInput.focus();
+        }
+
+        document.getElementById('openAddTaskModalBtn').addEventListener('click', openAddTaskModal);
+        document.getElementById('cancelTaskModalBtn').addEventListener('click', () => {
+            taskFormModal.classList.remove('open');
+        });
+
+        document.querySelectorAll('.score-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                taskScoreInput.value = chip.getAttribute('data-score');
+            });
+        });
+
+        document.getElementById('saveTaskModalBtn').addEventListener('click', () => {
+            const title = taskTitleInput.value.trim();
+            const score = parseInt(taskScoreInput.value, 10);
+            if (!title) {
+                taskTitleInput.focus();
+                return;
+            }
+            if (isNaN(score) || score <= 0) {
+                taskScoreInput.focus();
+                return;
+            }
+
+            if (currentEditingTaskId !== null) {
+                const target = tasks.find(t => t.id === currentEditingTaskId);
+                if (target) {
+                    target.title = title;
+                    target.score = score;
+                }
+            } else {
+                const nextId = tasks.length > 0 ? Math.max(...tasks.map(t => t.id)) + 1 : 0;
+                tasks.push({ id: nextId, title, score });
+            }
+
+            safeSetStorage('trackerDynamicTasksV3', tasks);
+            taskFormModal.classList.remove('open');
+            renderAll();
+        });
+
+        deleteTaskModalBtn.addEventListener('click', () => {
+            if (currentEditingTaskId !== null) {
+                tasks = tasks.filter(t => t.id !== currentEditingTaskId);
+                safeSetStorage('trackerDynamicTasksV3', tasks);
+                taskFormModal.classList.remove('open');
+                renderAll();
+            }
+        });
+
+        // نافذة المعاينة لجدول الأسبوع
+        function buildFullWeekTableHTML() {
+            const weekDates = getWeekDates(selectedDate);
             const firstDay = weekDates[0];
             const lastDay = weekDates[6];
             const rangeText = `من السبت ${firstDay.getDate()} ${MONTHS_AR[firstDay.getMonth()]} إلى الجمعة ${lastDay.getDate()} ${MONTHS_AR[lastDay.getMonth()]} ${lastDay.getFullYear()}`;
+            const maxScore = getMaxDailyScore();
+            const maxWeeklyScore = maxScore * 7;
 
             let headerDaysHTML = '';
             weekDates.forEach((d, idx) => {
-                headerDaysHTML += `<th scope="col">${WEEK_DAYS_AR[idx]}<br><span style="font-size:10px; font-weight:600; opacity:0.85;">${d.getDate()}/${d.getMonth() + 1}</span></th>`;
+                headerDaysHTML += `<th>${WEEK_DAYS_AR[idx]}<br><span style="font-size:10px; font-weight:600; opacity:0.85;">${d.getDate()}/${d.getMonth() + 1}</span></th>`;
             });
 
             let rowsHTML = '';
-            TASKS.forEach(task => {
+            tasks.forEach(task => {
                 let cellsHTML = '';
                 weekDates.forEach(d => {
                     const dKey = toDateKey(d);
                     const done = isTaskDone(dKey, task.id);
-                    cellsHTML += `<td class="week-mark-cell" data-date="${dKey}" data-task="${task.id}" title="اضغط للتعديل">${done ? '✓' : ''}</td>`;
+                    cellsHTML += `<td class="week-mark-cell" data-date="${dKey}" data-task="${task.id}">${done ? '✓' : ''}</td>`;
                 });
                 rowsHTML += `
                     <tr>
                         <td class="work-cell">${task.title}</td>
-                        <td class="duration-cell">${task.duration}</td>
+                        <td style="font-weight:800;">${task.score}</td>
                         ${cellsHTML}
                     </tr>
                 `;
@@ -1678,92 +1588,95 @@
 
             let totalsHTML = '';
             let percsHTML = '';
-            let totalWeekMinutes = 0;
+            let totalWeekScore = 0;
 
             weekDates.forEach(d => {
                 const st = getDayStats(toDateKey(d));
-                totalWeekMinutes += st.minutes;
-                totalsHTML += `<td>${st.minutes}</td>`;
+                totalWeekScore += st.score;
+                totalsHTML += `<td>${st.score}</td>`;
                 percsHTML += `<td>${st.perc}%</td>`;
             });
 
-            const weekPerc = MAX_WEEKLY_MINUTES > 0 ? Math.round((totalWeekMinutes / MAX_WEEKLY_MINUTES) * 100) : 0;
+            const weekPerc = maxWeeklyScore > 0 ? Math.round((totalWeekScore / maxWeeklyScore) * 100) : 0;
 
-            const tableHTML = `
+            return `
                 <div class="full-week-table-wrap">
-                    <table class="full-week-table" aria-label="جدول الأسبوع الكامل">
-                        <colgroup>
-                            <col class="work-column">
-                            <col class="duration-column">
-                            <col class="day-column">
-                            <col class="day-column">
-                            <col class="day-column">
-                            <col class="day-column">
-                            <col class="day-column">
-                            <col class="day-column">
-                            <col class="day-column">
-                        </colgroup>
+                    <table class="full-week-table">
                         <thead>
                             <tr>
-                                <th scope="col">العمل</th>
-                                <th scope="col">د</th>
+                                <th>العمل</th>
+                                <th>د</th>
                                 ${headerDaysHTML}
                             </tr>
                         </thead>
                         <tbody>
                             ${rowsHTML}
                             <tr class="total-row">
-                                <td class="work-cell">المجموع (دقائق)</td>
-                                <td class="duration-cell">${MAX_DAILY_MINUTES}</td>
+                                <td class="work-cell">المجموع (درجات)</td>
+                                <td>${maxScore}</td>
                                 ${totalsHTML}
                             </tr>
                             <tr class="percentage-row">
                                 <td class="work-cell">النسبة المئوية</td>
-                                <td class="duration-cell">%</td>
+                                <td>%</td>
                                 ${percsHTML}
                             </tr>
                         </tbody>
                     </table>
                 </div>
+                <div style="margin-top: 12px; display: flex; justify-content: space-between; font-size: 13px; font-weight: 700;">
+                    <span>${rangeText}</span>
+                    <span style="color: #26756f;">إجمالي الأسبوع: ${totalWeekScore} من ${maxWeeklyScore} درجة (${weekPerc}%)</span>
+                </div>
             `;
-
-            return { tableHTML, rangeText, totalWeekMinutes, weekPerc };
         }
 
-        // تحديث قالب الطباعة وجدول المعاينة
-        function syncPrintAndPreviewTables() {
-            const { tableHTML, rangeText, totalWeekMinutes, weekPerc } = buildFullWeekTableHTML(selectedDate, true);
-            document.getElementById('printWeekRangeText').textContent = rangeText;
-            document.getElementById('printTableMount').innerHTML = tableHTML;
-            document.getElementById('previewModalTitle').textContent = `جدول الأسبوع (${rangeText})`;
-
+        document.getElementById('previewWeekBtn').addEventListener('click', () => {
             const previewMount = document.getElementById('previewTableMount');
-            previewMount.innerHTML = tableHTML;
-
-            // السماح بالتعديل المباشر داخل نافذة المعاينة أيضاً
+            previewMount.innerHTML = buildFullWeekTableHTML();
             previewMount.querySelectorAll('.week-mark-cell').forEach(cell => {
                 cell.addEventListener('click', () => {
                     const dKey = cell.getAttribute('data-date');
                     const tId = parseInt(cell.getAttribute('data-task'), 10);
                     toggleTaskForDate(dKey, tId);
+                    previewMount.innerHTML = buildFullWeekTableHTML();
                 });
             });
+            document.getElementById('weeklyPreviewModal').classList.add('open');
+        });
 
-            const savedName = document.getElementById('userNameInput').value.trim();
-            document.getElementById('printUserNameSpan').textContent = savedName || '........................................';
-            document.getElementById('printSummaryStatsSpan').textContent =
-                `إجمالي إنجاز الأسبوع: ${totalWeekMinutes} من ${MAX_WEEKLY_MINUTES} دقيقة (${weekPerc}%)`;
-        }
+        document.getElementById('closePreviewModalBtn').addEventListener('click', () => {
+            document.getElementById('weeklyPreviewModal').classList.remove('open');
+        });
 
-        // تحديث داشبورد إحصائيات الشهر بالكامل
+        // مسح بيانات الأسبوع الحالي
+        const confirmResetModal = document.getElementById('confirmResetModal');
+        document.getElementById('resetWeekBtn').addEventListener('click', () => {
+            confirmResetModal.classList.add('open');
+        });
+        document.getElementById('cancelResetBtn').addEventListener('click', () => {
+            confirmResetModal.classList.remove('open');
+        });
+        document.getElementById('confirmResetActionBtn').addEventListener('click', () => {
+            const weekDates = getWeekDates(selectedDate);
+            weekDates.forEach(d => {
+                delete recordsByDate[toDateKey(d)];
+            });
+            safeSetStorage('trackerRecordsByDateV3', recordsByDate);
+            confirmResetModal.classList.remove('open');
+            renderAll();
+        });
+
+        // تحديث قسم إحصائيات الشهر
         function renderMonthlyDashboard() {
             const year = dashboardMonthDate.getFullYear();
             const month = dashboardMonthDate.getMonth();
             const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const maxDaily = getMaxDailyScore();
 
             document.getElementById('dashboardMonthTitle').textContent = `${MONTHS_AR[month]} ${year}`;
 
-            let monthTotalMinutes = 0;
+            let monthTotalScore = 0;
             let monthCompletedTasks = 0;
             let activeDaysCount = 0;
             let bestDayPerc = 0;
@@ -1773,7 +1686,7 @@
             const dailyLabels = [];
             const dailyPercentages = [];
             const taskMonthlyCounts = {};
-            TASKS.forEach(t => { taskMonthlyCounts[t.id] = 0; });
+            tasks.forEach(t => { taskMonthlyCounts[t.id] = 0; });
 
             for (let day = 1; day <= daysInMonth; day++) {
                 const dObj = new Date(year, month, day);
@@ -1783,7 +1696,7 @@
                 dailyLabels.push(String(day));
                 dailyPercentages.push(st.perc);
 
-                monthTotalMinutes += st.minutes;
+                monthTotalScore += st.score;
                 monthCompletedTasks += st.count;
 
                 if (st.count > 0) activeDaysCount++;
@@ -1796,33 +1709,30 @@
                     currentStreak = 0;
                 }
 
-                TASKS.forEach(t => {
+                tasks.forEach(t => {
                     if (isTaskDone(dKey, t.id)) {
                         taskMonthlyCounts[t.id]++;
                     }
                 });
             }
 
-            const maxMonthMinutes = daysInMonth * MAX_DAILY_MINUTES;
-            const monthOverallPerc = maxMonthMinutes > 0 ? Math.round((monthTotalMinutes / maxMonthMinutes) * 100) : 0;
+            const maxMonthScore = daysInMonth * maxDaily;
+            const monthOverallPerc = maxMonthScore > 0 ? Math.round((monthTotalScore / maxMonthScore) * 100) : 0;
 
-            // تحديث شريط التقدم الشهري
             document.getElementById('monthProgressFill').style.width = `${monthOverallPerc}%`;
             document.getElementById('monthProgressText').textContent =
-                `${monthTotalMinutes} / ${maxMonthMinutes} · ${monthOverallPerc}%`;
+                `${monthTotalScore} / ${maxMonthScore} د · ${monthOverallPerc}%`;
             document.getElementById('monthActiveDaysText').textContent =
                 `${activeDaysCount} من ${daysInMonth} يوم مسجل`;
 
-            // تحديث بطاقات المؤشرات الرئيسية
-            document.getElementById('kpiTotalMinutes').textContent = monthTotalMinutes.toLocaleString('ar-EG');
-            document.getElementById('kpiTotalHours').textContent =
-                `يعادل ${(monthTotalMinutes / 60).toFixed(1)} ساعة عبادة`;
+            document.getElementById('kpiTotalMinutes').textContent = `${monthTotalScore} د`;
+            document.getElementById('kpiTotalScoreSub').textContent = `من أصل ${maxMonthScore} درجة`;
             document.getElementById('kpiAvgPercentage').textContent = `${monthOverallPerc}%`;
-            document.getElementById('kpiBestDay').textContent = `أعلى يوم: ${bestDayPerc}%`;
-            document.getElementById('kpiCompletedTasks').textContent = monthCompletedTasks.toLocaleString('ar-EG');
+            document.getElementById('kpiBestDay').textContent = `أفضل يوم: ${bestDayPerc}%`;
+            document.getElementById('kpiCompletedTasks').textContent = monthCompletedTasks;
             document.getElementById('kpiStreak').textContent = `${maxStreak} يوم`;
 
-            // بناء خريطة الالتزام الشهرية (Calendar Heatmap)
+            // خريطة الشهر
             const heatmapGrid = document.getElementById('monthHeatmapGrid');
             heatmapGrid.innerHTML = '';
 
@@ -1854,7 +1764,7 @@
 
                 const cell = document.createElement('div');
                 cell.className = `heatmap-cell ${lvlClass}`;
-                cell.title = `${day} ${MONTHS_AR[month]}: ${st.perc}% (${st.minutes} دقيقة)`;
+                cell.title = `${day} ${MONTHS_AR[month]}: ${st.perc}% (${st.score} درجة)`;
                 cell.innerHTML = `
                     <span>${day}</span>
                     <span class="hm-perc">${st.perc}%</span>
@@ -1867,18 +1777,18 @@
                 heatmapGrid.appendChild(cell);
             }
 
-            // تحديث تفصيل الأعمال خلال الشهر
+            // تفصيل الأعمال
             const breakdownContainer = document.getElementById('monthlyTaskBreakdown');
             breakdownContainer.innerHTML = '';
-            TASKS.forEach(t => {
+            tasks.forEach(t => {
                 const doneDays = taskMonthlyCounts[t.id] || 0;
                 const taskPerc = Math.round((doneDays / daysInMonth) * 100);
                 const item = document.createElement('div');
                 item.className = 'task-stat-item';
                 item.innerHTML = `
                     <div class="task-stat-header">
-                        <span>${t.title}</span>
-                        <span style="color: var(--primary-dark);">${doneDays} / ${daysInMonth} يوم (${taskPerc}%)</span>
+                        <span>${t.title} (${t.score} د)</span>
+                        <span style="color: #26756f;">${doneDays} / ${daysInMonth} يوم (${taskPerc}%)</span>
                     </div>
                     <div class="task-stat-bar">
                         <div class="task-stat-fill" style="width: ${taskPerc}%;"></div>
@@ -1887,20 +1797,18 @@
                 breakdownContainer.appendChild(item);
             });
 
-            // رسم المنحنى البياني للشهر باستخدام Chart.js
+            // الرسم البياني
             const canvas = document.getElementById('monthlyTrendChart');
             if (canvas && typeof Chart !== 'undefined') {
-                if (monthlyChartInstance) {
-                    monthlyChartInstance.destroy();
-                }
+                if (monthlyChartInstance) monthlyChartInstance.destroy();
                 monthlyChartInstance = new Chart(canvas, {
                     type: 'bar',
                     data: {
                         labels: dailyLabels,
                         datasets: [{
-                            label: 'نسبة الإنجاز اليومي %',
+                            label: 'نسبة الإنجاز %',
                             data: dailyPercentages,
-                            backgroundColor: '#26756f',
+                            backgroundColor: isDarkMode ? '#00e6a8' : '#26756f',
                             borderRadius: 4,
                             maxBarThickness: 14
                         }]
@@ -1908,30 +1816,24 @@
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
-                        plugins: {
-                            legend: { display: false },
-                            tooltip: {
-                                callbacks: {
-                                    label: function(ctx) {
-                                        return `الإنجاز: ${ctx.parsed.y}%`;
-                                    }
-                                }
-                            }
-                        },
+                        plugins: { legend: { display: false } },
                         scales: {
                             y: {
                                 beginAtZero: true,
                                 max: 100,
                                 ticks: {
                                     callback: function(v) { return v + '%'; },
-                                    font: { family: 'Tajawal', size: 11 }
-                                }
+                                    font: { family: 'Tajawal', size: 11 },
+                                    color: isDarkMode ? '#8ab2ac' : '#647778'
+                                },
+                                grid: { color: isDarkMode ? '#1f4a43' : '#e4eceb' }
                             },
                             x: {
                                 ticks: {
                                     font: { family: 'Tajawal', size: 10 },
-                                    maxRotation: 0
-                                }
+                                    color: isDarkMode ? '#8ab2ac' : '#647778'
+                                },
+                                grid: { display: false }
                             }
                         }
                     }
@@ -1939,14 +1841,12 @@
             }
         }
 
-        // تحديث جميع المكونات
         function renderAll() {
             renderDailyView();
-            syncPrintAndPreviewTables();
             renderMonthlyDashboard();
         }
 
-        // التبديل بين تبويب جدول اليوم وتبويب الداشبورد الشهري
+        // التبديل بين التبويبات
         function switchTab(tabName) {
             const dailyBtn = document.getElementById('tabDailyBtn');
             const dashBtn = document.getElementById('tabDashboardBtn');
@@ -1970,7 +1870,6 @@
         document.getElementById('tabDailyBtn').addEventListener('click', () => switchTab('daily'));
         document.getElementById('tabDashboardBtn').addEventListener('click', () => switchTab('dashboard'));
 
-        // أزرار التنقل بين الأيام
         document.getElementById('prevDayBtn').addEventListener('click', () => {
             selectedDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate() - 1);
             renderAll();
@@ -1986,7 +1885,6 @@
             renderAll();
         });
 
-        // أزرار التنقل بين الأشهر في الداشبورد
         document.getElementById('prevMonthBtn').addEventListener('click', () => {
             dashboardMonthDate = new Date(dashboardMonthDate.getFullYear(), dashboardMonthDate.getMonth() - 1, 1);
             renderMonthlyDashboard();
@@ -1997,63 +1895,18 @@
             renderMonthlyDashboard();
         });
 
-        // حفظ واسترجاع الاسم
         const nameInput = document.getElementById('userNameInput');
         try {
-            const savedName = localStorage.getItem('trackerUserName');
+            const savedName = localStorage.getItem('trackerUserNameV3');
             if (savedName) nameInput.value = savedName;
         } catch (e) {}
 
         nameInput.addEventListener('input', function() {
-            try {
-                localStorage.setItem('trackerUserName', this.value);
-            } catch (e) {}
-            syncPrintAndPreviewTables();
+            try { localStorage.setItem('trackerUserNameV3', this.value); } catch (e) {}
         });
 
-        // زر طباعة جدول الأسبوع كاملاً بما أُنجز فيه
-        document.getElementById('printWeekBtn').addEventListener('click', () => {
-            syncPrintAndPreviewTables();
-            window.print();
-        });
-
-        // نافذة معاينة جدول الأسبوع الكامل
-        const previewModal = document.getElementById('weeklyPreviewModal');
-        document.getElementById('previewWeekBtn').addEventListener('click', () => {
-            syncPrintAndPreviewTables();
-            previewModal.classList.add('open');
-        });
-
-        document.getElementById('closePreviewModalBtn').addEventListener('click', () => {
-            previewModal.classList.remove('open');
-        });
-
-        document.getElementById('modalPrintNowBtn').addEventListener('click', () => {
-            syncPrintAndPreviewTables();
-            window.print();
-        });
-
-        // نافذة تأكيد مسح الأسبوع الحالي
-        const confirmResetModal = document.getElementById('confirmResetModal');
-        document.getElementById('resetWeekBtn').addEventListener('click', () => {
-            confirmResetModal.classList.add('open');
-        });
-
-        document.getElementById('cancelResetBtn').addEventListener('click', () => {
-            confirmResetModal.classList.remove('open');
-        });
-
-        document.getElementById('confirmResetActionBtn').addEventListener('click', () => {
-            const weekDates = getWeekDates(selectedDate);
-            weekDates.forEach(d => {
-                delete recordsByDate[toDateKey(d)];
-            });
-            safeSetStorage('trackerRecordsByDateV2', recordsByDate);
-            confirmResetModal.classList.remove('open');
-            renderAll();
-        });
-
-        // التشغيل الأولي عند فتح الصفحة
+        // بدء التشغيل
+        applyTheme(isDarkMode);
         renderAll();
     </script>
 </body>
